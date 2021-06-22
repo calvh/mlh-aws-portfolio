@@ -1,7 +1,4 @@
 from flask import Blueprint, render_template
-from dotenv import load_dotenv
-
-load_dotenv()
 
 portfolio = Blueprint("portfolio", __name__, template_folder="templates")
 
