@@ -5,10 +5,14 @@ from flask import render_template
 
 from app import db
 from app.portfolio import portfolio
+from app.auth import auth
 
 app = Flask(__name__)
+
 app.config["DATABASE"] = os.path.join(os.getcwd(), "flask.sqlite")
 db.init_app(app)
+
+app.register_blueprint(auth)
 app.register_blueprint(portfolio)
 
 
