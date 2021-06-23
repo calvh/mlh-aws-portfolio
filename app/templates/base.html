@@ -60,7 +60,8 @@
             {% block content %}{% endblock %}
         </section>
         <footer class="mt-auto">
-            <p>Copyright &copy; Current Year Miyabi Serizawa</p>
+            <p>Copyright &copy; {% if current_year == 2021 %}2021{% else %}2021-{{current_year}}{% endif %} Miyabi
+                Serizawa</p>
         </footer>
 
     </div>
