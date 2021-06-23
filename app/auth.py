@@ -30,6 +30,7 @@ def register():
                 (username, generate_password_hash(password))
             )
             db.commit()
+            flash("Register successful, please login.")
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -50,15 +51,24 @@ def login():
 
         if user is None:
             error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
+        elif check_password_hash(user['password'], password) is False:
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
-
+            session['username'] = user['username']
+            session["id"] = user["id"]
             return redirect(url_for('portfolio.index'))
 
         flash(error)
 
+    elif "username" in session:
+        return redirect(url_for("portfolio.index"))
+
     return render_template('login.html')
+
+
+@auth.route("/logout/")
+def logout():
+    session.clear()
+    return redirect(url_for('portfolio.index'))

@@ -25,12 +25,20 @@
 ('/', 'index', 'About'),
 ('/projects/','projects', 'Projects'),
 ('/contact/', 'contact', 'Contact'),
-('/resume/', 'resume','Resume'),
-('/auth/register/', 'register','Register'),
-('/auth/login/', 'login','Login'),
-('/auth/logout/', 'logout','Logout')
-] -%}
-{% set active_page = active_page|default('index') -%}
+('/resume/', 'resume','Resume')
+] %}
+
+{% if session["username"] %}
+{% set navigation_bar = navigation_bar + [
+    ('/auth/logout/', 'logout','Logout')
+] %}
+{% else %}
+{% set navigation_bar = navigation_bar + [
+    ('/auth/register/', 'register','Register'),
+    ('/auth/login/', 'login','Login')
+] %}
+{% endif %}
+{% set active_page = active_page|default('index') %}
 
 <body class="d-flex h-100 text-center">
     <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
