@@ -4,10 +4,12 @@
 
 root_url="http://localhost:5000/"
 auth_url="${root_url}auth/"
-username1=john
-username2=jane
-password1=john
-password2=jane
+register_url="${auth_url}register/"
+login_url="${auth_url}login/"
+username1=user1
+username2=user2
+password1=passwd1
+password2=passwd2
 
 function get_endpoint() {
     args=(-I -s -o /dev/null -w %{http_code} "${2}")
@@ -35,35 +37,34 @@ get_endpoint "GET '/resume/' ..." "${root_url}resume/"
 get_endpoint "GET '/oops/' ..." "${root_url}oops/"
 
 # test register no username no password
-auth_endpoint "POST '/auth/register' username='' password='' ..." "${auth_url}register" "" ""
+auth_endpoint "POST /auth/register/' username='' password='' ..." "${register_url}" "" ""
 
 # test register no username with password
-auth_endpoint "POST '/auth/register' username='' password='john' ..." "${auth_url}register" "" "john"
+auth_endpoint "POST '/auth/register/' username='' password='${password1}' ..." "${register_url}" "" "${password1}"
 
 # test register username with no password
-auth_endpoint "POST '/auth/register' username='john' password='' ..." "${auth_url}register" "john" ""
+auth_endpoint "POST '/auth/register/' username='${username1}' password='' ..." "${register_url}" "${username1}" ""
 
 # test register new user
-auth_endpoint "POST '/auth/register' username='john' password='john' ..." "${auth_url}register" "john" "john"
+auth_endpoint "POST '/auth/register/' username='${username1}' password='${password1}' ..." "${register_url}" "${username1}" "${password1}"
 
 # test register existing user
-auth_endpoint "POST '/auth/register' username='john' password='john' ..." "${auth_url}register" "john" "john"
-
+auth_endpoint "POST '/auth/register/' username='${username1}' password='${password1}' ..." "${register_url}" "${username1}" "${password1}"
 
 # test login no username no password
-auth_endpoint "POST '/auth/login' username='' password='' ..." "${auth_url}login" "" ""
+auth_endpoint "POST '/auth/login/' username='' password='' ..." "${login_url}" "" ""
 
 # test login no username with password
-auth_endpoint "POST '/auth/login' username='' password='john' ..." "${auth_url}login" "" "john"
+auth_endpoint "POST '/auth/login/' username='' password='${password1}' ..." "${login_url}" "" "${password1}"
 
 # test login username with no password
-auth_endpoint "POST '/auth/login' username='john' password='' ..." "${auth_url}login" "john" ""
+auth_endpoint "POST '/auth/login/' username='${username1}' password='' ..." "${login_url}" "${username1}" ""
 
 # test login user
-auth_endpoint "POST '/auth/login' username='john' password='john' ..." "${auth_url}login" "john" "john"
+auth_endpoint "POST '/auth/login/' username='${username1}' password='${password1}' ..." "${login_url}" "${username1}" "${password1}"
 
 # test login non-existing user
-auth_endpoint "POST '/auth/login' username='jane' password='jane' ..." "${auth_url}login" "jane" "jane"
+auth_endpoint "POST '/auth/login/' username='${username2}' password='${password2}' ..." "${login_url}" "${username2}" "${password2}"
 
 # test login wrong password
-auth_endpoint "POST '/auth/login' username='john' password='jane' ..." "${auth_url}login" "john" "jane"
+auth_endpoint "POST '/auth/login/' username='${username1}' password='${password2}' ..." "${login_url}" "${username1}" "${password2}"
