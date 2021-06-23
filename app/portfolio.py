@@ -5,43 +5,16 @@ portfolio = Blueprint("portfolio", __name__, template_folder="templates")
 
 @portfolio.route("/")
 def index():
-    title = "Miyabi"
-    description = "About Me"
-    return render_template(
-        "index.html",
-        title=title,
-        description=description,
-    )
-
+    return render_template("index.html")
 
 @portfolio.route("/projects/")
 def projects():
-    title = "Projects"
-    description = "Project"
-    return render_template(
-        "projects.html",
-        title=title,
-        description=description,
-    )
-
+    return render_template("projects.html")
 
 @portfolio.route("/contact/")
 def contact():
-    title = "Contact"
-    description = "contact"
-    return render_template(
-        "contact.html",
-        title=title,
-        description=description,
-    )
-
+    return render_template("contact.html")
 
 @portfolio.route("/resume/")
 def resume():
-    title = "Resume"
-    description = "Resume"
-    return render_template(
-        "resume.html",
-        title=title,
-        description=description,
-    )
+    return render_template("resume.html")

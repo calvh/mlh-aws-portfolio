@@ -38,8 +38,7 @@ def register():
         return error, 418
         # flash(error)
 
-    return "Register page not yet implemented.", 501
-    # return render_template('auth/register.html')
+    return render_template('register.html')
 
 
 @auth.route("/login/", methods=("GET", "POST"))
@@ -66,5 +65,4 @@ def login():
         return error, 418
         # flash(error)
 
-    return "Login page not yet implemented.", 501
-    # return render_template('auth/login.html')
+    return render_template('login.html')
