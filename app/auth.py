@@ -1,5 +1,3 @@
-import functools
-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -32,11 +30,9 @@ def register():
                 (username, generate_password_hash(password))
             )
             db.commit()
-            return f"User {username} created successfully."
-            # return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.login'))
 
-        return error, 418
-        # flash(error)
+        flash(error)
 
     return render_template('register.html')
 
@@ -58,11 +54,11 @@ def login():
             error = 'Incorrect password.'
 
         if error is None:
-            return "Login successful.", 200
-            # session.clear()
-            # session['user_id'] = user['id']
-            # return redirect(url_for('index'))
-        return error, 418
-        # flash(error)
+            session.clear()
+            session['user_id'] = user['id']
+
+            return redirect(url_for('portfolio.index'))
+
+        flash(error)
 
     return render_template('login.html')

@@ -7,9 +7,12 @@ from flask import render_template
 from app import db
 from app.portfolio import portfolio
 from app.auth import auth
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-
+app.secret_key = os.environ.get("SECRET_KEY")
 app.config["DATABASE"] = os.path.join(os.getcwd(), "flask.sqlite")
 db.init_app(app)
 
