@@ -1,3 +1,4 @@
+from pathlib import Path
 import pytest
 from app import app
 
@@ -31,3 +32,6 @@ def test_resume(client):
 def test_404(client):
     response = client.get("/oops/", content_type="html/text")
     assert response.status_code == 404
+
+def test_database():
+    assert Path("flask.sqlite").is_file()
