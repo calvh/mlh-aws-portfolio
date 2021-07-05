@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d portfolio"]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=portfolio
+    env_file:
+      - postgres.env
+    networks:
+      - backend-network
+
+  flask:
+    build: flask
+    restart: always
+    env_file:
+      - postgres.env
+      - flask.env
+    volumes:
+      - ./flask:/flask
+    ports:
+      - 5000:5000
+    networks:
+      - backend-network
+      - frontend-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  nginx:
+    image: jonasal/nginx-certbot:latest
+    restart: unless-stopped
+    env_file: 
+      - nginx.env
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx-secrets:/etc/letsencrypt
+      - ./nginx/user_conf.d:/etc/nginx/user_conf.d
+    networks:
+      - frontend-network
+    depends_on:
+      - flask
+
+volumes:
+  postgres-data:
+  nginx-secrets:
+networks:
+  backend-network:
+  frontend-network:
