@@ -138,4 +138,4 @@ dmypy.json
 cython_debug/
 
 # SQL Alchemy Alembic migration versions
-migrations/versions/
+migrations/
