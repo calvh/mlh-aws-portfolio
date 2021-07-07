@@ -29,4 +29,4 @@ jobs:
           SSH_IP: ${{ secrets.SSH_IP }}
 
       - name: Print project root directory
-        run: ssh aws-mlh 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
+        run: ssh aws-mlh 'cd ${{ secrets.PROJECT_ROOT }} && git fetch && get reset --hard origin/main && docker-compose up -d --build'
