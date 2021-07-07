@@ -1,8 +1,48 @@
 {% extends 'base.html' %}
 {% set active_page = "resume" %}
+{% block head_css %}
+<style>
+#resume: {
+    padding-top: 10em;
+}
+
+ul {
+    text-align: center;
+    list-style-position: inside;
+}
+</style>
+{% endblock %}
 {% block title %} Resume {% endblock %}
 {% block content %}
-<div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Resume_logo.jpeg" alt="Fake resume">
+<div id="resume">
 </div>
+{% endblock %}
+{% block showdown_js %} 
+<script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+    <script type="text/javascript">
+        const target = document.getElementById("resume");
+        const converter = new showdown.Converter();
+        const html = converter.makeHtml(
+           `
+Miyabi Serizawa
+=================
+1-chōme-1 Kanda Surugadai, Chiyoda City, Tokyo 101-8301, Japan
+
++81 90 3053 9053
+serizawa.miyabi@meiji.ac.jp
+
+Meiji University (2021-2025): Theatre and Drama 
+
+Languages:
+ - Python 
+ - Java
+ - C++
+
+Projects:
+ - React Project
+ - Python Project
+ - C++ Project
+`);
+        target.innerHTML = html;
+    </script>
 {% endblock %}
