@@ -35,13 +35,23 @@ jobs:
           git fetch &&
           git reset --hard origin/main &&
           docker-compose up -d --build &&
-          docker-compose ps &&
-          curl -s
-          -X POST "${{ secrets.DISCORD_WEBHOOK }}"
-          -d "content=🚀 Deployment Successful"'
+          docker-compose ps'
 
       - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Run production test
         run: ./prod_test.sh
+
+      - name: Notify discord failure
+        if: ${{ failure() }}
+        run: >-
+          curl -s
+          -X POST "${{ secrets.DISCORD_WEBHOOK }}"
+          -d "content=🚨 Deployment Failed"
+
+      - name: Notify discord success
+        run: >-
+          curl -s
+          -X POST "${{ secrets.DISCORD_WEBHOOK }}"
+          -d "content=🚀 Deployment Successful"
