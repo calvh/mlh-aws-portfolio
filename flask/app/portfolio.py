@@ -5,7 +5,7 @@ portfolio = Blueprint("portfolio", __name__, template_folder="templates")
 
 @portfolio.route("/")
 def index():
-    return "Failure test", 404
+    return render_template("index.html")
 
 @portfolio.route("/projects/")
 def projects():
