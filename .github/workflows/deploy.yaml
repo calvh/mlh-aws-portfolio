@@ -29,4 +29,11 @@ jobs:
           SSH_IP: ${{ secrets.SSH_IP }}
 
       - name: Deploy site
-        run: ssh aws-mlh 'cd ${{ secrets.PROJECT_ROOT }} && git fetch && git reset --hard origin/main && docker-compose up -d --build'
+        run: 
+          - >
+            ssh aws-mlh
+            'cd ${{ secrets.PROJECT_ROOT }} && 
+             git fetch && 
+             git reset --hard origin/main && 
+             docker-compose up -d --build
+             docker-compose ps'
