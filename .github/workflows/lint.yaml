@@ -12,21 +12,20 @@ jobs:
   run-linters:
     name: Format and lint
     runs-on: ubuntu-latest
-  steps:
-    - name: Checkout repo
-      uses: actions/checkout@v2
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-    - name: Setup Python 
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
+      - name: Setup Python 
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
 
-    - name: Install Python dependencies
-      run: pip install black flake8
+      - name: Install Python dependencies
+        run: pip install black flake8
 
-    - name: Run linters
-      uses: wearerequired/lint-action@v1
-      with:
-        black: true
-        flake8: true
-  
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          black: true
+          flake8: true
