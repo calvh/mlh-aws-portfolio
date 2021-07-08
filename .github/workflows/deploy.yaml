@@ -39,3 +39,7 @@ jobs:
           curl -s
           -X POST "${{ secrets.DISCORD_WEBHOOK }}"
           -d "content=🚀 Deployment Successful"'
+
+      - name: GET test
+        uses: actions/checkout@v2
+        run: ./prod_test.sh 
