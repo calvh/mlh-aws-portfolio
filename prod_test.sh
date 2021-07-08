@@ -4,7 +4,7 @@
 root_url="https://calvh.duckdns.org/"
 
 function get_endpoint() {
-    args=(-I -s -o /dev/null -w %{http_code} "${2}")
+    args=(-I -s -m 30 -o /dev/null -w %{http_code} "${2}")
     status=$(curl "${args[@]}")
     if [[ "${status}" == "${3}" ]]; then
         exit 0 
