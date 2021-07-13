@@ -1,18 +1,34 @@
 #!/bin/bash
 
-
 root_url="https://calvh.duckdns.org/"
 
 function get_endpoint() {
-    
-    args=(-I -s -m 30 -o /dev/null -w %{http_code} "${2}")
-    status=$(curl "${args[@]}")
-    if [[ "${status}" == "${3}" ]]; then
-        echo "Test ${1} ${status} succeeded."
-    else
-        echo "Test ${1} ${status} failed."
-        exit 1
-    fi
+
+  description=$1
+  url=$2
+  expected_status_code=$3
+
+  args=(
+        --head 
+        --silent 
+        --output /dev/null 
+        --write-out %{http_code}
+        --connect-timeout 5
+        --max-time 10
+        --retry 5
+        --retry-delay 0
+        --retry-max-time 40
+    "$url")
+
+  status=$(curl "${args[@]}")
+  message="Test: ${description} ${expected_status_code} ->"
+
+  if [[ "${status}" == "${expected_status_code}" ]]; then
+    echo "${message} succeeded."
+  else
+    echo "${message} failed. Got ${status} instead."
+    exit 1
+  fi
 }
 
 # test index page
