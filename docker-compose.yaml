@@ -1,6 +1,7 @@
 version: "3.8"
 services:
-  postgres:
+  db:
+    container_name: postgres
     image: postgres
     restart: always
     healthcheck:
@@ -17,7 +18,8 @@ services:
     networks:
       - backend-network
 
-  flask:
+  web:
+    container_name: flask
     build: flask
     restart: always
     env_file:
@@ -35,9 +37,10 @@ services:
         condition: service_healthy
 
   nginx:
+    container_name: nginx
     image: jonasal/nginx-certbot
     restart: unless-stopped
-    env_file: 
+    env_file:
       - nginx.env
     volumes:
       - nginx-secrets:/etc/letsencrypt
@@ -49,6 +52,17 @@ services:
       - frontend-network
     depends_on:
       - flask
+  cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8080:8080
 
 volumes:
   postgres-data:
