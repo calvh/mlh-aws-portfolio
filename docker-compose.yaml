@@ -33,7 +33,7 @@ services:
       - backend-network
       - frontend-network
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
 
   nginx:
@@ -51,7 +51,7 @@ services:
     networks:
       - frontend-network
     depends_on:
-      - flask
+      - web
   cadvisor:
     container_name: cadvisor
     image: gcr.io/cadvisor/cadvisor:latest
