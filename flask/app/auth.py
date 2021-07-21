@@ -72,8 +72,8 @@ def login():
 
 @auth.route("/health/")
 def auth_health():
-    user_count = User.query.all().count()
-    return f"DB query returned: {user_count} user(s)."
+    users = User.query.all()
+    return f"DB query returned: {len(users)} user(s)."
 
 
 @auth.route("/logout/")
